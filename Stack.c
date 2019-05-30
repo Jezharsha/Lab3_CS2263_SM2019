@@ -38,11 +38,12 @@ int main(void)
     while(1 == scanf("%s", buffer))
     {
         push(&Stack, buffer);
+        
     }
 
     // write out the sentence in reverse order
     while(Stack != NULL)
-    {
+    {  
         char *str = NULL;
         bool popped = pop(&Stack, &str);
         if( popped && NULL != str )
@@ -67,7 +68,18 @@ int main(void)
  */
 Node_t *newNode(const char *value, Node_t *next)
 {
-    return NULL;
+    Node_t *nd = malloc(sizeof(Node_t));
+    char *target = strdup(value);
+
+    if (nd == NULL){
+        return NULL;
+    }
+    else{
+        nd->value = target;
+        nd->next = next;
+    }
+    return nd;
+    
 }
 
 /**
@@ -77,7 +89,17 @@ Node_t *newNode(const char *value, Node_t *next)
  */
 Node_t *deleteNode(Node_t *current, char **value)
 {
-    return NULL;
+    if (current == NULL){
+        return;
+    }
+    else{
+        *value = current->value;
+        Node_t *ptr = current->next;
+        free(current);
+        current = ptr;
+    }
+    return current; //which is equal to the next node now
+    
 }
 
 /**
@@ -88,8 +110,15 @@ Node_t *deleteNode(Node_t *current, char **value)
  */
 bool pop(Node_t **Stack, char **value)
 {
-    return false;
+    if (*Stack == NULL){
+        return false;
+    }
+    else{
+        *Stack = deleteNode(*Stack, value);
+        return true;
+    }
 }
+
 
 /**
  * Push the string to the top of the stack using newNode
@@ -98,5 +127,11 @@ bool pop(Node_t **Stack, char **value)
  */
 bool push(Node_t **Stack, const char *value)
 {
-    return false;
+   
+        *Stack = newNode(value, *Stack);
+        return true;
+    
+
+
+
 }
